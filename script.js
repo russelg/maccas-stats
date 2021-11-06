@@ -207,7 +207,7 @@ $(async () => {
   const popup = $('#popup')
     .dxPopup({
       contentTemplate: (contentElement) => popupContentTemplate(contentElement),
-      width: 600,
+      // width: 600,
       container: '.dx-viewport',
       showTitle: true,
       title: 'Store Details',
