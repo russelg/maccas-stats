@@ -13,6 +13,11 @@
     />
     <link rel="preload" as="fetch" href="./all.json" crossorigin="anonymous" />
     <style>
+      p {
+        margin: 1rem;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+
       .dx-toolbar-before {
         display: flex;
         justify-content: left;
@@ -23,6 +28,10 @@
     </style>
   </head>
   <body>
+    <p>
+      You can download the raw data (JSON/CSV, one file per store) here:
+      <a href="./maccas_wa_store_data.zip">https://russelg.github.io/maccas-stats/maccas_wa_store_data.zip</a>
+    </p>
     <!-- partial:index.partial.html -->
     <div class="dx-viewport demo-container">
       <div id="gridContainer"></div>
