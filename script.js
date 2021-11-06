@@ -3,6 +3,16 @@ $(async () => {
     return value !== undefined && value !== null && value !== ''
   }
 
+  function debounce(func, timeout = 300) {
+    let timer
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, timeout)
+    }
+  }
+
   const transformName = (name) => {
     return name
       .replace(' WA', '')
@@ -99,7 +109,10 @@ $(async () => {
   var dataGrid = $('#gridContainer')
     .dxDataGrid({
       dataSource: store,
-      searchPanel: { visible: true },
+      searchPanel: {
+        visible: true,
+        placeholder: 'Search stores...',
+      },
       showBorders: true,
       showRowLines: true,
       rowAlternationEnabled: true,
@@ -124,8 +137,22 @@ $(async () => {
   const categoryNames = [...Object.keys(categories)]
   const selectedCategories = new Set(categoryNames)
 
+  let searchValue = ''
+
+  const filterItemsByName = (name, reset = false) => {
+    if (name || reset) {
+      data[0].items.forEach((itm) => {
+        dataGrid.columnOption(
+          itm.name,
+          'visible',
+          reset ? true : itm.name.toLowerCase().includes(name.toLowerCase())
+        )
+      })
+    }
+  }
+
   const addButtons = (allSelected = true) => {
-    $('.dx-toolbar-before').html('')
+    $('#controls').html('')
 
     let container = $('<div>')
     $('<input />', {
@@ -145,12 +172,13 @@ $(async () => {
         Object.values(categories).forEach((itm) => {
           itm.forEach((i) => dataGrid.columnOption(i, 'visible', selected))
         })
+        filterItemsByName(searchValue)
         dataGrid.endUpdate()
         addButtons(selected)
       },
     }).appendTo(container)
     $('<label />', { for: 'cb-all', text: 'Select All' }).appendTo(container)
-    $('.dx-toolbar-before').append(container)
+    $('#controls').append(container)
 
     Object.keys(categories).forEach((category) => {
       const id = category.replace(/\s/g, '-').replace('&', 'and')
@@ -172,19 +200,38 @@ $(async () => {
           const items = categories[category]
           dataGrid.beginUpdate()
           items.forEach((itm) => {
-            // console.log(itm)
             dataGrid.columnOption(itm, 'visible', selected)
           })
+          filterItemsByName(searchValue)
           dataGrid.endUpdate()
-          // console.log(e, category, selectedCategories)
         },
       }).appendTo(label)
       label.append(category)
       label.appendTo(container)
 
-      $('.dx-toolbar-before').append(container)
+      $('#controls').append(container)
     })
   }
+
+  const filterItems = $('<div />').dxTextBox({
+    value: searchValue,
+    showClearButton: true,
+    placeholder: 'Search items...',
+    valueChangeEvent: 'keyup',
+    mode: 'search',
+    onValueChanged: debounce((input) => {
+      console.log(input)
+      searchValue = input.value
+      dataGrid.beginUpdate()
+      filterItemsByName(
+        searchValue,
+        // reset if clearing name
+        !input.value.trim() && input.previousValue !== input.value
+      )
+      dataGrid.endUpdate()
+    }),
+  })
+  $('.dx-toolbar-after').append(filterItems)
 
   addButtons()
 })

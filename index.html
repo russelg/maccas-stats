@@ -18,12 +18,17 @@
         font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       }
 
-      .dx-toolbar-before {
+      .dx-item-content.dx-toolbar-item-content {
+          margin-right: 1rem;
+      }
+      
+      #controls, .dx-toolbar-before {
         display: flex;
         justify-content: left;
         width: 100%;
         align-items: center;
         grid-gap: 1rem;
+        flex-wrap: wrap;
       }
     </style>
   </head>
@@ -34,6 +39,7 @@
     </p>
     <!-- partial:index.partial.html -->
     <div class="dx-viewport demo-container">
+      <div id="controls"></div>
       <div id="gridContainer"></div>
     </div>
     <!-- partial -->
