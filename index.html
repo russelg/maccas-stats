@@ -21,8 +21,8 @@
       .dx-item-content.dx-toolbar-item-content {
           margin-right: 1rem;
       }
-      
-      #controls, .dx-toolbar-before {
+
+      #controls, #popupControls, .dx-toolbar-before {
         display: flex;
         justify-content: left;
         width: 100%;
@@ -30,17 +30,30 @@
         grid-gap: 1rem;
         flex-wrap: wrap;
       }
+
+      #popupGrid .dec {
+        background: #2ab71b;
+      }
+
+      #popupGrid .inc {
+        background: #f00;
+        color: white;
+      }
     </style>
   </head>
-  <body>
+  <body class="dx-viewport">
     <p>
       You can download the raw data (JSON/CSV, one file per store) here:
       <a href="./maccas_wa_store_data.zip">https://russelg.github.io/maccas-stats/maccas_wa_store_data.zip</a>
     </p>
+    <p>
+      Click/tap on a row to show more information about that store.
+    </p>
     <!-- partial:index.partial.html -->
-    <div class="dx-viewport demo-container">
+    <div class="demo-container">
       <div id="controls"></div>
       <div id="gridContainer"></div>
+      <div id="popup"></div>
     </div>
     <!-- partial -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
