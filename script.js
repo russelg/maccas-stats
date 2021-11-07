@@ -1,23 +1,23 @@
+function debounce(func, timeout = 300) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, timeout)
+  }
+}
+
+const transformName = (name) => {
+  return name
+    .replace(' WA', '')
+    .split(' ')
+    .map((w) => w[0].toUpperCase() + w.substr(1).toLowerCase())
+    .join(' ')
+    .replace('Ii', '2')
+}
+
 $(async () => {
-  function debounce(func, timeout = 300) {
-    let timer
-    return (...args) => {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        func.apply(this, args)
-      }, timeout)
-    }
-  }
-
-  const transformName = (name) => {
-    return name
-      .replace(' WA', '')
-      .split(' ')
-      .map((w) => w[0].toUpperCase() + w.substr(1).toLowerCase())
-      .join(' ')
-      .replace('Ii', '2')
-  }
-
   const data = await fetch('./all.json')
     .then((res) => res.json())
     .catch(() => {
@@ -82,8 +82,7 @@ $(async () => {
       },
       ...data[0].items.map((itm) => ({
         caption: itm.name,
-        name: itm.name,
-        // width: 120,
+        name: itm.name, // width: 120,
         allowSorting: true,
         format: {
           precision: 2,
@@ -106,7 +105,7 @@ $(async () => {
   const store = new DevExpress.data.CustomStore({
     key: 'store.name',
     loadMode: 'raw', // omit in the DataGrid, TreeList, PivotGrid, and Scheduler
-    load: function() {
+    load: function () {
       return data
     },
   })
@@ -207,7 +206,6 @@ $(async () => {
   const popup = $('#popup')
     .dxPopup({
       contentTemplate: (contentElement) => popupContentTemplate(contentElement),
-      // width: 600,
       container: '.dx-viewport',
       showTitle: true,
       title: 'Store Details',
@@ -215,9 +213,6 @@ $(async () => {
       dragEnabled: false,
       closeOnOutsideClick: false,
       showCloseButton: true,
-      onHidden() {
-        // viewingStore = undefined
-      },
       position: {
         at: 'center',
         my: 'center',
@@ -225,7 +220,7 @@ $(async () => {
     })
     .dxPopup('instance')
 
-  var dataGrid = $('#gridContainer')
+  const dataGrid = $('#gridContainer')
     .dxDataGrid({
       dataSource: store,
       searchPanel: {
@@ -381,8 +376,7 @@ $(async () => {
       searchValue = input.value
       dataGrid.beginUpdate()
       filterItemsByName(
-        searchValue,
-        // reset if clearing name
+        searchValue, // reset if clearing name
         !input.value.trim() && input.previousValue !== input.value
       )
       dataGrid.endUpdate()
