@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Maccas WA Item Pricing</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn3.devexpress.com/jslib/21.2.3/css/dx.common.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn3.devexpress.com/jslib/21.2.3/css/dx.light.css"
-    />
-    <link rel="preload" as="fetch" href="./all.json" crossorigin="anonymous" />
-    <style>
+<head>
+  <meta charset="UTF-8" />
+  <title>Maccas WA Item Pricing</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn3.devexpress.com/jslib/21.2.3/css/dx.common.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn3.devexpress.com/jslib/21.2.3/css/dx.light.css"
+  />
+  <link rel="preload" as="fetch" href="./all.json" crossorigin="anonymous" />
+  <style>
+      html, body {
+          height: 100%;
+          margin: 0 0.25rem;
+          padding: 0;
+      }
+
       p {
-        margin: 1rem;
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          margin: 1rem;
+          font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       }
 
       .dx-item-content.dx-toolbar-item-content {
@@ -23,41 +29,79 @@
       }
 
       #controls, #popupControls, .dx-toolbar-before {
-        display: flex;
-        justify-content: left;
-        width: 100%;
-        align-items: center;
-        grid-gap: 1rem;
-        flex-wrap: wrap;
+          display: flex;
+          justify-content: left;
+          width: 100%;
+          align-items: center;
+          grid-gap: 1rem;
+          flex-wrap: wrap;
       }
 
       #popupGrid .dec {
-        background: #2ab71b;
+          background: #2ab71b;
       }
 
       #popupGrid .inc {
-        background: #f00;
-        color: white;
+          background: #f00;
+          color: white;
       }
-    </style>
-  </head>
-  <body class="dx-viewport">
-    <p>
-      You can download the raw data (JSON/CSV, one file per store) here:
-      <a href="./maccas_wa_store_data.zip">https://russelg.github.io/maccas-stats/maccas_wa_store_data.zip</a>
-    </p>
-    <p>
-      Click/tap on a row to show more information about that store.
-    </p>
 
-    <div class="demo-container">
-      <div id="controls"></div>
-      <div id="gridContainer"></div>
-      <div id="popup"></div>
+      .dx-multiview-item-container {
+          padding: 0.5rem 1rem;
+      }
+
+      .dx-multiview-item:not(.dx-item-selected) {
+          display: none;
+      }
+
+      .map-tab {
+          height: 80vh;
+      }
+
+      #myMap {
+          height: 100%;
+      }
+  </style>
+</head>
+<body class="dx-viewport">
+<div id="popup"></div>
+
+<p>
+  Click/tap on a row to show more information about that store.
+
+  You can download the raw data (JSON/CSV, one file per store) here:
+  <a href="./maccas_wa_store_data.zip">https://russelg.github.io/maccas-stats/maccas_wa_store_data.zip</a>
+</p>
+<div id="tabpanel-container" class="dx-multiview dx-swipeable dx-tabpanel dx-widget dx-visibility-change-handler dx-collection" role="tabpanel" tabindex="-1">
+  <div class="dx-tabpanel-tabs">
+    <div class="tabs-container"></div>
+  </div>
+  <div class="dx-tabpanel-container">
+    <div class="dx-multiview-wrapper">
+      <div class="dx-multiview-item-container">
+        <div class="dx-item dx-multiview-item dx-item-selected" role="tabpanel">
+          <div class="dx-item-content dx-multiview-item-content">
+            <div id="controls"></div>
+            <div id="gridContainer"></div>
+          </div>
+        </div>
+        <div class="dx-item dx-multiview-item map-tab" role="tabpanel">
+          <div class="dx-item-content dx-multiview-item-content">
+            <div id="myMap"></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn3.devexpress.com/jslib/21.2.3/js/dx.all.js"></script>
-    <script src="./script.js"></script>
-  </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn3.devexpress.com/jslib/21.2.3/js/dx.all.js"></script>
+<!--<script src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AvQ6c3Ggnq8nje2joeC_QuSaKX8z3mT-flKOqnvFctG5unqBVVvBdqMSc5-z_eHM" async defer></script>-->
+<script src="./script.js"></script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAA257FV5Ap6SFd_GdGffALQZrIOse2LXM&libraries=visualization&callback=initMap"
+  async
+></script>
+</body>
 </html>
